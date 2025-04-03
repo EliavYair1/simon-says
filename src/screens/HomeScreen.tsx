@@ -3,13 +3,13 @@ import {View, Text, Button, StyleSheet} from 'react-native';
 import {useAppSelector, useAppDispatch} from '../hooks/reduxHooks';
 import {increment, decrement} from '../store/slices/counterSlice';
 import {HomeScreenNavigationProp} from '../navigation/types';
+import {RootState} from '../store/rootReducer';
 
 type Props = {
   navigation: HomeScreenNavigationProp;
 };
-
 const HomeScreen: React.FC<Props> = ({navigation}) => {
-  const count = useAppSelector(state => state.counter.value);
+  const count = useAppSelector((state: RootState) => state.counter.value);
   const dispatch = useAppDispatch();
 
   return (
