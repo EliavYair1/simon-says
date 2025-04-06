@@ -1,0 +1,4 @@
+RELEASE_STORE_FILE=simon-says.jks
+RELEASE_KEY_ALIAS=key3553
+RELEASE_STORE_PASSWORD=your_keystore_password
+RELEASE_KEY_PASSWORD=your_key_password
