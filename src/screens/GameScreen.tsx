@@ -9,7 +9,7 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameOver}) => {
   const [sequence, setSequence] = useState<string[]>([]);
   const [userInput, setUserInput] = useState<string[]>([]);
   const [score, setScore] = useState(0);
-  const [gameState, setGameState] = useState('idle'); // 'idle', 'showing', 'userTurn', 'gameOver'
+  const [gameState, setGameState] = useState('idle'); // status: 'idle', 'showing', 'userTurn', 'gameOver'
   const [activeColor, setActiveColor] = useState<string | null>(null);
   const colors = ['red', 'green', 'blue', 'yellow'];
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -37,7 +37,6 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameOver}) => {
     const newSequence = [...sequence, newColor];
     setSequence(newSequence);
 
-    // Start showing the sequence after a short delay
     timeoutRef.current = setTimeout(() => {
       showSequence(newSequence);
     }, 1000);
@@ -48,9 +47,7 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameOver}) => {
     setGameState('showing');
     setActiveColor(null);
 
-    // Function to show each color in the sequence one by one
     const showColors = (index: number) => {
-      // If we've shown all colors, end the sequence display
       if (index >= sequenceToShow.length) {
         setActiveColor(null);
         setGameState('userTurn');
@@ -60,44 +57,34 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameOver}) => {
       // Show the current color
       setActiveColor(sequenceToShow[index]);
 
-      // Wait 800ms with the color visible
       timeoutRef.current = setTimeout(() => {
-        // Hide the color
         setActiveColor(null);
 
-        // Wait 300ms before showing the next color
         timeoutRef.current = setTimeout(() => {
           showColors(index + 1);
         }, 300);
       }, 800);
     };
 
-    // Start showing from the first color
     showColors(0);
   };
 
   // Handle when the player presses a color button
   const handleColorPress = (color: string) => {
-    // Only accept input during user's turn
     if (gameState !== 'userTurn') return;
 
-    // Flash the pressed button
     setActiveColor(color);
     timeoutRef.current = setTimeout(() => {
       setActiveColor(null);
     }, 300);
 
-    // Add this color to user input
     const newUserInput = [...userInput, color];
     setUserInput(newUserInput);
 
-    // Check if the input is correct
     const currentStep = userInput.length;
     if (color !== sequence[currentStep]) {
-      // Wrong input - show game over
       setGameState('gameOver');
 
-      // After a delay, go to results screen
       timeoutRef.current = setTimeout(() => {
         onGameOver(score);
       }, 1500);
@@ -106,11 +93,9 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameOver}) => {
 
     // Check if the user has completed the sequence
     if (newUserInput.length === sequence.length) {
-      // Success! Increase score
       setScore(score + 1);
       setUserInput([]);
 
-      // Add a new color after a delay
       timeoutRef.current = setTimeout(() => {
         addToSequence();
       }, 1000);
@@ -121,7 +106,6 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameOver}) => {
     <View style={styles.container}>
       <Text style={styles.score}>Current Score: {score}</Text>
 
-      {/* Different messages based on game state */}
       {gameState === 'idle' && (
         <Text style={styles.instruction}>Press Start to begin</Text>
       )}
@@ -135,7 +119,6 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameOver}) => {
         <Text style={styles.gameOverText}>Game Over!</Text>
       )}
 
-      {/* Color buttons */}
       <View style={styles.buttonContainer}>
         {colors.map(color => (
           <TouchableOpacity
@@ -152,12 +135,10 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameOver}) => {
         ))}
       </View>
 
-      {/* Start button - only show when game is idle */}
       {gameState === 'idle' && (
         <Button title="Start Game" onPress={startGame} />
       )}
 
-      {/* Show current progress */}
       {gameState === 'userTurn' && (
         <Text style={styles.progress}>
           {userInput.length} / {sequence.length}

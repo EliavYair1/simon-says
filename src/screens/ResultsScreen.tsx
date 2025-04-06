@@ -1,4 +1,3 @@
-// app/components/ResultsScreen.tsx
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -33,13 +32,14 @@ const ResultsScreen: React.FC<ResultsScreenProps> = ({
     loadResults();
   }, []);
 
+  // load results from AsyncStorage when the component mounts
   const loadResults = async () => {
     const storedResults = await AsyncStorage.getItem('results');
     if (storedResults) {
       setResults(JSON.parse(storedResults));
     }
   };
-
+  // save the result to AsyncStorage
   const saveResult = async () => {
     if (!playerName) {
       Alert.alert('Please enter your name');
