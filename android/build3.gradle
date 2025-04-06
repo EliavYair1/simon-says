@@ -1,0 +1,20 @@
+android {
+    // ... other configurations
+
+    signingConfigs {
+        release {
+            storeFile file("keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000") // Your keystore file path
+            storePassword "355312"
+            keyAlias "key3553" // Your key alias
+            keyPassword "355312"
+        }
+    }
+
+    buildTypes {
+        release {
+
+
+            signingConfig signingConfigs.release
+        }
+    }
+}

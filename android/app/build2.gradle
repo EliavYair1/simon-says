@@ -1,20 +1,20 @@
 android {
-                // ... other configurations
+    // ... other configurations
 
-                signingConfigs {
-                    release {
-                        storeFile file("my-release-key.keystore") // Your keystore file path
-                        storePassword "your_store_password"
-                        keyAlias "my-key-alias" // Your key alias
-                        keyPassword "your_key_password"
-                    }
-                }
+    signingConfigs {
+        release {
+            storeFile file("my-release-key.keystore") // Your keystore file path
+            storePassword "Yahli2211"
+            keyAlias "key3553" 
+            keyPassword "355312"
+        }
+    }
 
-                buildTypes {
-                    release {
-                         // ... other configurations
+    buildTypes {
+        release {
+            // ... other configurations
 
-                        signingConfig signingConfigs.release
-                    }
-                }
-            }
+            signingConfig signingConfigs.release
+        }
+    }
+}

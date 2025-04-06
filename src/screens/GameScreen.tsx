@@ -12,11 +12,13 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameOver}) => {
   const [score, setScore] = useState<number>(0);
   const colors = useMemo(() => ['red', 'green', 'blue', 'yellow'], []);
 
+  // adds a new random color to the sequence
   const addToSequence = useCallback(() => {
     const newColor = colors[Math.floor(Math.random() * colors.length)];
     setSequence(prevSequence => [...prevSequence, newColor]);
   }, [colors]);
 
+  // effect that checks if the user's input matches the sequence
   useEffect(() => {
     if (userInput.length === sequence.length) {
       if (JSON.stringify(userInput) === JSON.stringify(sequence)) {
@@ -29,6 +31,9 @@ const GameScreen: React.FC<GameScreenProps> = ({onGameOver}) => {
     }
   }, [userInput, sequence, onGameOver, score, addToSequence]);
 
+  console.log('sequence', sequence);
+
+  // handles the button click by adding the selected color to user input
   const handleButtonClick = (color: string) => {
     setUserInput(prevInput => [...prevInput, color]);
   };
